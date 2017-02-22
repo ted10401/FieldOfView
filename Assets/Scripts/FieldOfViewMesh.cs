@@ -61,7 +61,6 @@ public class FieldOfViewMesh : FieldOfView
 
         _uvs = new Vector2[vertexCount];
         _uvs[0] = new Vector2(0.5f, 0.5f);
-        Vector2 uvTop = Vector2.up;
         float lerp = 0;
         Vector3 direction = Vector3.zero;
         for (int i = 1, mesh = 0; i < _uvs.Length; i += 2, mesh++)
