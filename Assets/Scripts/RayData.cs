@@ -21,11 +21,11 @@ public class RayData
     public void UpdateDirection(float angle)
     {
         m_angle += angle;
-        m_direction = DirFromAngle(m_angle);
+        m_direction = DirectionFromAngle(m_angle);
         m_end = m_start + m_direction * m_distance;
     }
 
-    private Vector3 DirFromAngle(float angle)
+    private Vector3 DirectionFromAngle(float angle)
     {
         float pi = Mathf.Deg2Rad;
 
