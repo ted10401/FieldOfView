@@ -48,13 +48,14 @@ public class FieldOfView : MonoBehaviour
     {        
         RayData[] rayDatas = new RayData[_divide + 1];
 
+        Vector3 center = transform.position;
         float startAngle = transform.eulerAngles.y -_angle / 2;
         float angle = _angle / _divide;
         RayData rayDataCache = null;
 
         for(int i = 0; i <= _divide; i++)
         {
-            rayDataCache = new RayData(startAngle + angle * i, _radius);
+            rayDataCache = new RayData(center, startAngle + angle * i, _radius);
 
             rayDatas[i] = rayDataCache;
         }
@@ -86,7 +87,7 @@ public class FieldOfView : MonoBehaviour
         else
         {
             rayData.m_hitCollider = null;
-            rayData.m_end = transform.position + rayData.m_direction * _radius;
+            rayData.m_end = rayData.m_start + rayData.m_direction * _radius;
         }
     }
 
@@ -117,10 +118,11 @@ public class FieldOfView : MonoBehaviour
             return null;
         }
 
+        Vector3 center = transform.position;
         float maxAngle = Vector3.Angle(startEdgeRayData.m_direction, endEdgeRayData.m_direction);
         float curAngle = _approximationPrecision;
 
-        RayData edgeRayData = new RayData(startEdgeRayData.m_angle + _approximationPrecision, _radius);
+        RayData edgeRayData = new RayData(center, startEdgeRayData.m_angle + _approximationPrecision, _radius);
         UpdateRaycast(edgeRayData);
 
         while (RayData.IsHittingSameObject(startEdgeRayData, edgeRayData))
@@ -144,7 +146,7 @@ public class FieldOfView : MonoBehaviour
 
         EdgeData edgeData = new EdgeData();
         edgeData.m_secondRay = edgeRayData;
-        edgeData.m_firstRay = new RayData(edgeRayData.m_angle - _approximationPrecision, _radius);
+        edgeData.m_firstRay = new RayData(center, edgeRayData.m_angle - _approximationPrecision, _radius);
         UpdateRaycast(edgeData.m_firstRay);
 
         return edgeData;
@@ -182,6 +184,7 @@ public class FieldOfView : MonoBehaviour
             return null;
         }
 
+        Vector3 center = transform.position;
         EdgeData edgeData = new EdgeData();
         float angle = 0;
         RayData edgeRayData = null;
@@ -189,7 +192,7 @@ public class FieldOfView : MonoBehaviour
         for (int i = 0; i < _bisectionCount; i++)
         {
             angle = (startEdgeRayData.m_angle + endEdgeRayData.m_angle) / 2;
-            edgeRayData = new RayData(angle, _radius);
+            edgeRayData = new RayData(center, angle, _radius);
             UpdateRaycast(edgeRayData);
 
             if (RayData.IsHittingSameObject(startEdgeRayData, edgeRayData))

@@ -66,10 +66,13 @@ public class FieldOfViewMesh : FieldOfView
         Vector3 direction = Vector3.zero;
         for (int i = 1, mesh = 0; i < _uvs.Length; i += 2, mesh++)
         {
-            lerp = _vertices[i].magnitude * 0.6f / _radius;
-            _uvs[i] = uvTop * lerp + _uvs[0];
-            lerp = _vertices[i + 1].magnitude * 0.6f / _radius;
-            _uvs[i + 1] = uvTop * lerp + _uvs[0];
+            lerp = _vertices[i].magnitude / _radius;
+            direction = _rayDatas[mesh].m_direction * _rayDatas[mesh].m_distance * 0.6f / _radius;
+            _uvs[i] = new Vector2(direction.x, direction.z) * lerp + _uvs[0];
+
+            lerp = _vertices[i + 1].magnitude / _radius;
+            direction = _rayDatas[mesh + 1].m_direction * _rayDatas[mesh].m_distance * 0.6f / _radius;
+            _uvs[i + 1] = new Vector2(direction.x, direction.z) * lerp + _uvs[0];
         }
 
         _mesh.Clear();

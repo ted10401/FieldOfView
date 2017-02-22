@@ -2,6 +2,7 @@
 
 public class RayData
 {
+    public Vector3 m_start;
     public float m_distance;
     public float m_angle;
     public Vector3 m_direction;
@@ -9,8 +10,9 @@ public class RayData
     public Collider m_hitCollider;
     public bool m_hit;
 
-    public RayData(float angle, float distance)
+    public RayData(Vector3 start, float angle, float distance)
     {
+        m_start = start;
         m_distance = distance;
 
         UpdateDirection(angle);
@@ -20,7 +22,7 @@ public class RayData
     {
         m_angle += angle;
         m_direction = DirFromAngle(m_angle);
-        m_end = m_direction * m_distance;
+        m_end = m_start + m_direction * m_distance;
     }
 
     private Vector3 DirFromAngle(float angle)
