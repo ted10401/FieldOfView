@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class FieldOfViewMesh : FieldOfView
@@ -52,7 +55,7 @@ public class FieldOfViewMesh : FieldOfView
         }
 
         _triangles = new int[triangleCount];
-        for (int i = 0; i < meshCount; i ++)
+        for (int i = 0; i < meshCount; i++)
         {
             _triangles[i * 3] = 0;
             _triangles[i * 3 + 1] = i * 2 + 1;
@@ -83,6 +86,7 @@ public class FieldOfViewMesh : FieldOfView
         _meshFilter.mesh = _mesh;
     }
 
+    #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (!_drawGizmo)
@@ -105,4 +109,5 @@ public class FieldOfViewMesh : FieldOfView
             Handles.DrawSolidArc(cacheData.m_end, transform.up, transform.forward, 360, _hitScale);
         }
     }
+    #endif
 }
